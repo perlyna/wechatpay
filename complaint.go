@@ -4,6 +4,8 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
+	"io/ioutil"
+	"net/http"
 	"net/url"
 	"strconv"
 	"time"
@@ -29,6 +31,16 @@ func ParseComplaintNotify(body []byte, apiv3Secret string) (model.ComplaintEvent
 	return ret, err
 }
 
+// ParseComplaintNotify 解析投诉通知回调数据
+// 文档链接: https://pay.weixin.qq.com/wiki/doc/apiv3/apis/chapter10_2_16.shtml
+func (p *WechatPay) ParseComplaintNotify(r *http.Request) (model.ComplaintEvent, error) {
+	body, err := ioutil.ReadAll(r.Body)
+	if err != nil {
+		return model.ComplaintEvent{}, fmt.Errorf("读取请求内容失败 %w", err)
+	}
+	return ParseComplaintNotify(body, p.apiv3Secret)
+}
+
 const complaintsURL = "https://api.mch.weixin.qq.com/v3/merchant-service/complaints-v2"
 
 // ListComplaints 查询投诉单列表
@@ -46,6 +58,7 @@ func (p *WechatPay) ListComplaints(ctx context.Context, begin, end time.Time) ([
 		if err != nil {
 			return nil, err
 		}
+		fmt.Printf("%s\n", body)
 		reply := model.ComplaintReply{}
 		if err = json.Unmarshal(body, &reply); err != nil {
 			return complaints, err
