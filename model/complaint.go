@@ -2,11 +2,14 @@ package model
 
 import "time"
 
+// Complaint 查询投诉单列表
+// 文档链接: https://pay.weixin.qq.com/wiki/doc/apiv3/apis/chapter10_2_11.shtml
+// 更新时间: 2021.04.01
 type ComplaintReply struct {
 	Complaints []Complaint `json:"data"`        // 用户投诉信息详情
-	Offset     uint32      `json:"offset"`      // 分页开始位置
-	Limit      uint32      `json:"limit"`       // 分页大小
-	TotalCount uint64      `json:"total_count"` // 投诉总条数
+	Offset     int         `json:"offset"`      // 分页开始位置
+	Limit      int         `json:"limit"`       // 分页大小
+	TotalCount int         `json:"total_count"` // 投诉总条数
 }
 
 // ComplaintOrderInfo 投诉单关联订单信息
@@ -18,6 +21,7 @@ type ComplaintOrderInfo struct {
 
 // Complaint 投诉单详情
 // 文档链接: https://pay.weixin.qq.com/wiki/doc/apiv3/apis/chapter10_2_13.shtml
+// 更新时间: 2021.04.01
 type Complaint struct {
 	ComplaintID           string               `json:"complaint_id"`            // 投诉单号
 	ComplaintTime         time.Time            `json:"complaint_time"`          // 投诉时间
@@ -32,7 +36,9 @@ type Complaint struct {
 	UserComplaintTimes    int                  `json:"user_complaint_times"`    // 用户投诉次数。用户首次发起投诉记为1次，用户每有一次继续投诉就加1
 }
 
-// ComplaintEvent 投诉通知回调事件
+// ComplaintEvent 投诉通知回调事件请求参数
+// 文档链接: https://pay.weixin.qq.com/wiki/doc/apiv3/apis/chapter10_2_16.shtml
+// 更新时间: 2021.04.01
 type ComplaintEvent struct {
 	ID           string    `json:"id"`            // 通知ID
 	CreateTime   time.Time `json:"create_time"`   // 通知创建时间
@@ -50,4 +56,24 @@ type ComplaintEvent struct {
 	// 通知资源数据 解密
 	ComplaintID string `json:"complaint_id"` // 投诉单号
 	ActionType  string `json:"action_type"`  // 触发本次投诉通知回调的具体动作类型
+}
+
+// NegotiationHistory 投诉协商历史
+// 文档链接: https://pay.weixin.qq.com/wiki/doc/apiv3/apis/chapter10_2_12.shtml
+// 更新时间: 2021.04.01
+type NegotiationHistoryReply struct {
+	Historys   []NegotiationHistory `json:"data"`        // 投诉协商历史
+	Offset     int                  `json:"offset"`      // 分页开始位置
+	Limit      int                  `json:"limit"`       // 分页大小
+	TotalCount int                  `json:"total_count"` // 投诉总条数
+}
+
+// NegotiationHistory 投诉协商历史
+type NegotiationHistory struct {
+	LogID    string   `json:"log_id"`          // 投诉单号
+	Operator string   `json:"operator"`        // 投诉单号
+	Time     string   `json:"operate_time"`    // 投诉单号
+	Type     string   `json:"operate_type"`    // 投诉单号
+	Details  string   `json:"operate_details"` // 投诉单号
+	Images   []string `json:"image_list"`      // 投诉单号
 }
