@@ -176,3 +176,15 @@ func (p *WechatPay) DeleteComplaintNotification(ctx context.Context) (err error)
 	_, err = core.Delete(ctx, p.Client, p.credential, p.validator, complaintNotifyURL, nil)
 	return err
 }
+
+type complaintCompleteReq struct {
+	MchID string `json:"complainted_mchid"`
+}
+
+// CompleteComplaint  反馈投诉单已处理完成
+func (p *WechatPay) CompleteComplaint(ctx context.Context, complaintID string) error {
+	req := complaintCompleteReq{MchID: p.mchID}
+	reqURL := fmt.Sprintf(`https://api.mch.weixin.qq.com/v3/merchant-service/complaints-v2/%s/complete`, complaintID)
+	_, err := core.Post(ctx, p.Client, p.credential, p.validator, reqURL, req)
+	return err
+}
