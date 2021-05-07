@@ -182,6 +182,7 @@ type complaintCompleteReq struct {
 }
 
 // CompleteComplaint  反馈投诉单已处理完成
+// 文档链接: https://pay.weixin.qq.com/wiki/doc/apiv3/apis/chapter10_2_15.shtml
 func (p *WechatPay) CompleteComplaint(ctx context.Context, complaintID string) error {
 	req := complaintCompleteReq{MchID: p.mchID}
 	reqURL := fmt.Sprintf(`https://api.mch.weixin.qq.com/v3/merchant-service/complaints-v2/%s/complete`, complaintID)

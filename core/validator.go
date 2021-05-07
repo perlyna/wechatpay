@@ -25,6 +25,8 @@ func (validator *WechatPayNullValidator) Validate(ctx context.Context, body []by
 	return nil
 }
 
+var WithoutValidator = &WechatPayNullValidator{}
+
 // WechatPayValidator 回包校验器
 type WechatPayValidator struct {
 	Verifier Verifier // 验证器

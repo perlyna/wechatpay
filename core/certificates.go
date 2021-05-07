@@ -14,8 +14,7 @@ const certificatesURL = `https://api.mch.weixin.qq.com/v3/certificates`
 // GetCertificatesContext 获取平台证书列表
 // 文档链接: https://pay.weixin.qq.com/wiki/doc/apiv3_partner/wechatpay/wechatpay5_1.shtml
 func GetCertificates(ctx context.Context, hc *http.Client, credential Credential) ([]model.CertificateInfo, error) {
-	validator := &WechatPayValidator{&WechatPayDefaultVerifier{}}
-	body, err := Get(ctx, hc, credential, validator, certificatesURL)
+	body, err := Get(ctx, hc, credential, WithoutValidator, certificatesURL)
 	if err != nil {
 		return nil, err
 	}
