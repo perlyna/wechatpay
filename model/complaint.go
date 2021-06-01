@@ -77,3 +77,11 @@ type NegotiationHistory struct {
 	Details  string   `json:"operate_details"` // 投诉单号
 	Images   []string `json:"image_list"`      // 投诉单号
 }
+
+// 投诉单提交回复请求参数
+type ComplaintResponse struct {
+	ComplaintID    string   `json:"-"`                         // 投诉单号
+	MchID          string   `json:"complainted_mchid"`         // 被诉商户号
+	Content        string   `json:"response_content"`          // 回复内容
+	ResponseImages []string `json:"response_images,omitempty"` // 回复图片
+}

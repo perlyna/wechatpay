@@ -177,6 +177,17 @@ func (p *WechatPay) DeleteComplaintNotification(ctx context.Context) (err error)
 	return err
 }
 
+// ComplaintResponse 提交回复
+// 文档链接: https://pay.weixin.qq.com/wiki/doc/apiv3/apis/chapter10_2_14.shtml
+func (p *WechatPay) ComplaintResponse(ctx context.Context, response model.ComplaintResponse) error {
+	reqURL := fmt.Sprintf(`https://api.mch.weixin.qq.com/v3/merchant-service/complaints-v2/%s/response`, response.ComplaintID)
+	if response.MchID == "" {
+		response.MchID = p.mchID
+	}
+	_, err := core.Post(ctx, p.Client, p.credential, p.validator, reqURL, response)
+	return err
+}
+
 type complaintCompleteReq struct {
 	MchID string `json:"complainted_mchid"`
 }
